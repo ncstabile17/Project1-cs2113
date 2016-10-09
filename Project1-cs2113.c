@@ -76,16 +76,36 @@ int remNode(struct LList *list, char* name)
   /*  Removes the element named "name" from the list, if it exists.
       Returns the index of the element removed.
   */
-  if(head of list is NULL) 
-    return -1
-  else
-    create two pointers to step through the list, one trailingPtr behind leadingPtr
-    compare longitude to each value in list incrementing index after each comparison
-    upon finding nodeToRemove set trailingPtr->next to leadingPtr->next and delete leadingPtr(aka nodeToRemove), freeing memory if necessary
-    return index of Element Removed
+  if(list->head == NULL) {
+    return -1;
+  }
+  else {
+    struct LNode* currNode = malloc(sizeof(struct LNode));
+    struct LNode* prevNode = malloc(sizeof(struct LNode));
+    currNode = list->head;
+    currNode->next = list->head->next;
+    //step through list incrementing index each time through loop until we reach end
+    int isValue; 
+    int index = 0;
+    isValue = strcmp(currNode->name, name);
 
-  if node not removed
-    return -1
+    while (isValue != 0 && currNode!= NULL) {
+      prevNode = currNode;
+      currNode = currNode->next;
+      isValue = strcmp(currNode->name, name);
+      index++;
+    }
+
+    if (currNode == NULL) {
+      return -1;
+    }
+
+    prevNode->next = currNode->next;
+    free(currNode);
+
+    return index;
+  }
+
 }
 
 int addSortedNode(struct LList *list, char* name, double lat, double lon)
