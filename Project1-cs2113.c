@@ -35,7 +35,39 @@ int addNode(struct LList *list, char* name, double lat, double lon) {
       Return the index number of the new entry 
   */
 
-  return 0;
+ // allocate memory for new Node
+  struct LNode* newNode = malloc(sizeof(struct LNode));
+ // fill data into new Node
+  newNode->name = name;
+  newNode->latitude = lat;
+  newNode->longitude = lon;
+  newNode->next = NULL;
+
+  int index = 0;
+
+  if(list->head == NULL) {
+    list->head = newNode;
+    return index;
+  }
+
+  else if (list->head != NULL) {
+    struct LNode* currNode = malloc(sizeof(struct LNode));
+    currNode = list->head;
+    currNode->next = list->head->next;
+    //step through list incrementing index each time through loop until we reach end
+    while (currNode->next != NULL) {
+      currNode = currNode->next;
+      index++;
+    }
+    currNode->next = newNode;
+    index++;
+    //set last entry's next pointer = newNode
+    return index;
+
+  else 
+    return -1;
+  }
+  
 }
 
 
@@ -44,7 +76,16 @@ int remNode(struct LList *list, char* name)
   /*  Removes the element named "name" from the list, if it exists.
       Returns the index of the element removed.
   */
-  return 0;
+  if(head of list is NULL) 
+    return -1
+  else
+    create two pointers to step through the list, one trailingPtr behind leadingPtr
+    compare longitude to each value in list incrementing index after each comparison
+    upon finding nodeToRemove set trailingPtr->next to leadingPtr->next and delete leadingPtr(aka nodeToRemove), freeing memory if necessary
+    return index of Element Removed
+
+  if node not removed
+    return -1
 }
 
 int addSortedNode(struct LList *list, char* name, double lat, double lon)
