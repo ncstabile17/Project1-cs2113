@@ -183,5 +183,28 @@ int addSortedNode(struct LList *list, char* name, double lat, double lon)
 int clearList(struct LList *list) 
 {
   /* Delete list and free all of the memory associate with its LNodes. */
-  return 0;
+  int nodeCounter = 0;
+  if(list->head ==NULL) {
+    return nodeCounter;
+  }
+  else {
+    struct LNode* currNode = malloc(sizeof(struct LNode));
+    struct LNode* prevNode = malloc(sizeof(struct LNode));
+    currNode = list->head;
+    currNode->next = list->head->next;
+
+    while(currNode->next != NULL) {
+      prevNode=currNode->next;
+      list->head=prevNode;
+      free(currNode);
+      currNode=prevNode;
+      nodeCounter++;
+    }
+    
+    free(currNode);
+    list->head = NULL;
+    nodeCounter++;
+    
+    return nodeCounter;
+  }
 }
