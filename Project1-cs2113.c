@@ -113,7 +113,71 @@ int addSortedNode(struct LList *list, char* name, double lat, double lon)
   /*  Add a point to the list, sorted by longitude in ascending order. 
       Returns the position of the new point.
   */
-  return 0;
+
+   // allocate memory for new Node
+  struct LNode* newNode = malloc(sizeof(struct LNode));
+ // fill data into new Node
+  newNode->name = name;
+  newNode->latitude = lat;
+  newNode->longitude = lon;
+  newNode->next = NULL;
+
+  int index = 0;
+
+  if(list->head == NULL) {
+    list->head = newNode;
+    return index;
+  }
+
+  else if (list->head != NULL) {
+    struct LNode* currNode = malloc(sizeof(struct LNode));
+    struct LNode* prevNode = malloc(sizeof(struct LNode));
+
+    currNode = list->head;
+    currNode->next = list->head->next;
+    //step through list incrementing index each time through loop until we reach end
+    while ((newNode->longitude > currNode->longitude) && currNode->next!= NULL) {
+      printf("line 139: %s\n", currNode->name);
+      prevNode = currNode;
+      currNode = currNode->next;
+      printf("line 142: %s\n", currNode->name);
+      index++;
+    }
+    
+    if (currNode == list->head) {
+    
+    list->head = newNode;
+    newNode->next = currNode;
+    printf("newNode: %s, currNode: %s, prevNode: %s\n", newNode->name, currNode->name, prevNode->name);
+    printList(list);
+
+    return index;
+    }
+    
+    if (currNode->next == NULL) {
+      if (currNode->longitude >= newNode->longitude) {
+        prevNode->next = newNode;
+        newNode->next = currNode;
+      }
+      else {
+        currNode->next = newNode;
+        newNode->next = NULL;
+      }
+    }
+   
+    else {
+      prevNode->next = newNode;
+      newNode->next = currNode;
+      printf("newNode: %s, currNode: %s, prevNode: %s, prevNode->next: %s\n", newNode->name, currNode->name, prevNode->name, prevNode->next->name);
+
+      return index;
+    }
+  }
+
+  else 
+    return -1;
+  
+
 }
 
 int clearList(struct LList *list) 
